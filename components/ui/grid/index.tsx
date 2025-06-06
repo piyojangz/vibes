@@ -165,7 +165,7 @@ const Grid = forwardRef<React.ElementRef<typeof View>, IGridProps>(
 
     const childrenWithProps = React.Children.map(children, (child, index) => {
       if (React.isValidElement(child)) {
-        return React.cloneElement(child, { index } as any);
+        return React.cloneElement(child, { ...child.props, key: index, index });
       }
 
       return child;
@@ -205,7 +205,7 @@ const Grid = forwardRef<React.ElementRef<typeof View>, IGridProps>(
               props?.paddingEnd || props?.paddingRight || props?.padding || 0;
 
             const gridWidth =
-              event.nativeEvent.layout.width -
+              Math.floor(event.nativeEvent.layout.width) -
               paddingLeftToSubtract -
               paddingRightToSubtract -
               borderWidthToSubtract;
@@ -297,7 +297,7 @@ const GridItem = forwardRef<React.ElementRef<typeof View>, IGridItemProps>(
             (((calculatedWidth - gutterOffset) * responsiveColSpan) /
               numColumns /
               calculatedWidth) *
-              100,
+            100,
             100
           ) + '%';
 

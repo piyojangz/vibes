@@ -1,84 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import Gradient from "@/assets/Icons/Gradient";
 import DocumentData from "@/assets/Icons/DocumentData";
 import LightBulbPerson from "@/assets/Icons/LightbulbPerson";
 import Rocket from "@/assets/Icons/Rocket";
 import Logo from "@/assets/Icons/Logo";
 import { Box } from "@/components/ui/box";
-import { ScrollView } from "react-native";
+import { ScrollView, Image, ActivityIndicator } from "react-native";
+import { View } from "react-native";
+import { useFonts } from "expo-font";
 import { Text } from "@/components/ui/text";
-
+import LoadingModal from "react-native-loading-modal";
 import { Link } from "expo-router";
-
-const FeatureCard = ({ iconSvg: IconSvg, name, desc }: any) => {
-  return (
-    <Box
-      className="flex-column border border-w-1 border-outline-700 md:flex-1 m-2 p-4 rounded"
-      key={name}
-    >
-      <Box className="items-center flex flex-row">
-        <Text>
-          <IconSvg />
-        </Text>
-        <Text className="text-typography-white font-medium ml-2 text-xl">
-          {name}
-        </Text>
-      </Box>
-      <Text className="text-typography-400 mt-2">{desc}</Text>
-    </Box>
-  );
-};
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
+  const onPress = () => {
+    setLoading(true);
+    setTimeout(() => {
+      location.replace("/tabs/");
+    }, 2000);
+
+  };
   return (
     <Box className="flex-1 bg-black h-[100vh]">
+      <LoadingModal modalVisible={loading} darkMode={true} color={"#01363E"} />
+
       <ScrollView
         style={{ height: "100%" }}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <Box className="absolute h-[500px] w-[500px] lg:w-[700px] lg:h-[700px]">
-          <Gradient />
-        </Box>
-        <Box className="flex flex-1 items-center my-16 mx-5 lg:my-24 lg:mx-32">
-          <Box className="gap-10 base:flex-col sm:flex-row justify-between sm:w-[80%] md:flex-1">
-            <Box className="bg-background-template py-2 px-6 rounded-full items-center flex-column md:flex-row md:self-start">
-              <Text className="text-typography-white font-normal">
-                Get started by editing
-              </Text>
-              <Text className="text-typography-white font-medium ml-2">
-                ./App.tsx
-              </Text>
-            </Box>
-            <Link href="/tabs/">
-              <Box className="bg-background-template py-2 px-6 rounded-full items-center flex-column sm:flex-row md:self-start">
-                <Text className="text-typography-white font-normal">
-                  Explore Tab Navigation
-                </Text>
-              </Box>
-            </Link>
-          </Box>
-          <Box className="flex-1 justify-center items-center h-[20px] w-[300px] lg:h-[160px] lg:w-[400px]">
-            <Logo />
-          </Box>
+        <View className="absolute top-0 left-0 right-0 bottom-0 z-[-1]">
+          <Image resizeMode="cover"
+            style={{ width: "100%", height: "100%" }}
+            source={require("@/assets/images/land-bg.png")} />
+        </View>
+        <View className="flex-1 justify-center items-center top-110   left-0 right-0 z-10">
+          <Image
+            source={require("@/assets/images/Vibes.png")} />
+        </View>
+        <View
+          className="pt-10 pb-10 justify-center items-center   left-0 right-0 z-10"
+          style={{ backgroundColor: "#01363E", borderTopLeftRadius: 25, borderTopRightRadius: 25 }}
+        >
+          <View className="flex-row justify-center items-center w-full px-5">
+            <Text style={{ color: "#fff", fontSize: 28, fontFamily: "KanitMedium" }}>ยินดีต้อนรับสู่ <Text style={{ color: "#9FFF1A", fontSize: 32, fontFamily: "Karla", fontWeight: 700 }}>Vibes</Text></Text>
+          </View>
+          <View className="flex-row justify-center items-center w-full px-5 pt-4 pb-2">
+            <Text style={{ color: "#fff", fontSize: 18, fontFamily: "KanitLight" }}>ล๊อกอินเพื่อบอก vibe ดีๆให้ทุกคนได้รู้</Text>
+          </View>
+          <View className="flex-row justify-center items-center w-full px-5 pt-2 pb-2  mt-5"  >
 
-          <Box className="flex-column md:flex-row">
-            <FeatureCard
-              iconSvg={DocumentData}
-              name="Docs"
-              desc="Find in-depth information about gluestack features and API."
-            />
-            <FeatureCard
-              iconSvg={LightBulbPerson}
-              name="Learn"
-              desc="Learn about gluestack in an interactive course with quizzes!"
-            />
-            <FeatureCard
-              iconSvg={Rocket}
-              name="Deploy"
-              desc="Instantly drop your gluestack site to a shareable URL with vercel."
-            />
-          </Box>
-        </Box>
+            <Button className="bg-white" style={{ borderRadius: 15, height: 60, width: 300 }} onPress={onPress}> <Image
+              source={require("@/assets/images/google-icon.png")} /> <Text style={{ color: "#000", fontSize: 18, fontFamily: "Karla", fontWeight: "700" }}>Continue with Google</Text></Button>
+
+          </View>
+          <View className="flex-row justify-center items-center w-full px-5 pt-2 pb-2 "  >
+            <Button className="bg-white mt-5" style={{ borderRadius: 15, height: 60, width: 300 }}> <Image
+              source={require("@/assets/images/apple-icon.png")} /> <Text style={{ color: "#000", fontSize: 18, fontFamily: "Karla", fontWeight: "700" }}>Continue with Google</Text></Button>
+          </View>
+
+          <View className="flex-row justify-center items-center w-full px-5  mt-5">
+            <Text style={{ color: "#fff", fontSize: 16, fontFamily: "KanitLight" }}>ยังไม่มีบัญชีใช่ไหม? <Text style={{ color: "#9FFF1A", fontSize: 16, fontFamily: "KanitLight" }}>สมัครเลย</Text></Text>
+          </View>
+        </View>
       </ScrollView>
     </Box>
   );

@@ -28,7 +28,10 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
+    Karla: require("../assets/fonts/Karla-VariableFont_wght.ttf"),
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    KanitMedium: require("../assets/fonts/Kanit-Medium.ttf"),
+    KanitLight: require("../assets/fonts/Kanit-Light.ttf"),
     ...FontAwesome.font,
   });
 

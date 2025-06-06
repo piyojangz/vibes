@@ -12,7 +12,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
           Open up the code for this screen:
         </Text>
         <Box className="rounded-sm px-1 my-2 bg-secondary-200">
-          <Text className="text-sm leading-5 text-center font-SpaceMono">
+          <Text className="text-sm leading-5 text-center font-Karla">
             {path}
           </Text>
         </Box>
