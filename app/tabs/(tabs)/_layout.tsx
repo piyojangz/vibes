@@ -5,7 +5,10 @@ import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { View } from "@/components/Themed";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Image, Text } from "react-native";
-import { faInbox, faCompass, faUserFriends, faSplotch } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faCompass, faUserFriends, faHomeAlt, faUserAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+
+import { useTouchStore } from '../../store';
+
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
@@ -14,6 +17,9 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+
+
+  const isShow = useTouchStore((state) => state.isShow);
   return (
     <Tabs
       screenOptions={{
@@ -56,9 +62,18 @@ export default function TabLayout() {
         },
       }}
     >
-      <Tabs.Screen
-        name="index"
+      {/* <Tabs.Screen
+        name="tab2"
         options={{
+          headerShown: false,
+          title: "",
+          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faHomeAlt} color={color} size={24} /></View>,
+        }}
+      /> */}
+      <Tabs.Screen
+        name="tabnav"
+        options={{
+          headerShown: isShow,
           title: "",
           tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faCompass} color={color} size={24} /></View>,
         }}
@@ -71,19 +86,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faUserFriends} color={color} size={24} /></View>,
         }}
       />
-      <Tabs.Screen
-        name="tab2"
-        options={{
-          title: "",
-          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faSplotch} color={color} size={24} /></View>,
-        }}
-      />
+
 
       <Tabs.Screen
         name="tab3"
         options={{
           title: "",
-          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faInbox} color={color} size={24} /></View>,
+          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faUserCircle} color={color} size={24} /></View>,
         }}
       />
     </Tabs>

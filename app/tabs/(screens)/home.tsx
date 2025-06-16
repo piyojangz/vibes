@@ -6,19 +6,26 @@ import { Box } from '@/components/ui/box';
 import { HStack } from '@/components/ui/hstack';
 import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPlusCircle, faLocationArrow } from '@fortawesome/free-solid-svg-icons'
+import { faCircleUser, faComments, faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 import { Grid, GridItem } from "@/components/ui/grid"
 import { ResponsiveGrid } from 'react-native-flexible-grid';
 import { ClusterProps, MarkerClusterer } from '@teovilla/react-native-web-maps';
 import { Fab, FabLabel, FabIcon } from "@/components/ui/fab"
 import { AddIcon } from "@/components/ui/icon"
+import MapView from 'react-native-maps';
+import { useImagesStore, useTouchStore } from '../../store';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Home() {
+export function Home() {
+  const setHeader = useTouchStore((state) => state.setHeader);
+  const navigation = useNavigation();
+  const images = useImagesStore((state) => state.images);
   const bottomSheetRef = useRef<BottomSheet>(null);
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
+
 
 
 
@@ -28,39 +35,29 @@ export default function Home() {
     heightRatio?: number;
   }
 
-  const data: ImageItem[] = [
-    {
-      imageUrl: 'https://www.lemon8-app.com/seo/image?item_id=7283652971815109122&index=1&sign=555c7bc03d8536815fd1ac6d41142d13',
-      widthRatio: 1,
-      heightRatio: 1.4,
-    },
-    {
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqWDSDWf77PV7V6kBX31E6r5RWSVHRm5NPGg&s',
-      widthRatio: 1,
-      heightRatio: 1.4,
-    },
-    {
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8yX6bw_zV18yHCcvru1VFSZQRLw0ErcAZMw&s',
-      widthRatio: 1,
-      heightRatio: 1.4,
-    },
-    {
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAO6PXCN3Uc9XPkypVGdjBmPT8Zw4ewkHQyQ&s',
-      widthRatio: 1,
-      heightRatio: 1.4,
-    },
-    {
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaNlopdud98Tn25o0gC0GrH2gVE0rmwUhRog&s',
-      widthRatio: 1,
-      heightRatio: 1.4,
-    },
-  ];
+  // const repeatedData: ImageItem[] = Array(2).fill(images).flat();
 
-  const repeatedData: ImageItem[] = Array(2).fill(data).flat();
 
-  function handleImagePress(index: number, e: GestureResponderEvent): void {
-    console.log(`Image at index ${index} pressed`, e.nativeEvent);
-  }
+  const setX = useTouchStore((state) => state.setX);
+  const setY = useTouchStore((state) => state.setY);
+  const setsOverRideStackAnimations = useTouchStore((state) => state.setsOverRideStackAnimations);
+
+
+  const handleImagePress = useCallback((index: number, e: GestureResponderEvent) => {
+    setsOverRideStackAnimations(false)
+    setX(e.nativeEvent.pageX);
+    setY(e.nativeEvent.pageY);
+    // navigation.navigate('ReelsScreen', { index });
+    navigation.navigate('ReelsScreen', { index, x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
+  }, [navigation, setX, setY]);
+
+
+  const handleGroupPress = useCallback((e: GestureResponderEvent) => {
+    setsOverRideStackAnimations(true)
+    setX(e.nativeEvent.pageX);
+    setY(e.nativeEvent.pageY);
+    navigation.navigate('GroupScreen', {});
+  }, [navigation, setX, setY]);
 
 
   const renderItem = ({ item, index }: { item: ImageItem; index: number }): React.ReactElement => (
@@ -82,6 +79,7 @@ export default function Home() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <View style={styles.map}>
+        {/* <MapView style={styles.map} /> */}
         <ScrollView
           pagingEnabled={true}
           contentContainerStyle={{ paddingHorizontal: 10, marginVertical: 10 }}
@@ -128,60 +126,56 @@ export default function Home() {
           elevation: 12,
         }}
         snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enableDynamicSizing={true}
+        onChange={handleSheetChanges} 
+        enableOverDrag={false}
+        enableDynamicSizing={true} 
       >
-        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-          <Box className="">
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-              <ScrollView
-                pagingEnabled={true}
-                contentContainerStyle={{ paddingHorizontal: 10 }}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                <HStack space="xs" reversed={false}>
-                  <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'ทั้งหมด\nView'}</Text></Box>
-                  <Box className="h-10 w-20 justify-center items-center rounded" style={{ backgroundColor: "#01363E" }}><Text style={{ color: "#9FFF1A", fontSize: 12, fontFamily: "Kanit", textAlign: "center" }}>{'Rach hour'}</Text></Box>
-                  <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'ท่าช้างรัชโย\nView'}</Text></Box>
-                  <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'Peek a Boo\nView'}</Text></Box>
-                  <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'พราว\nView'}</Text></Box>
-                </HStack>
-              </ScrollView>
-              <View className="h-10 justify-center items-center" style={{
-                marginRight: 10,
-                width: 60,
-                shadowColor: "#000",
-                borderRadius: 10,
-                zIndex: 1,
-                shadowOffset: {
-                  width: -1,
-                  height: 0,
-                },
-                shadowOpacity: 0.1,
-                shadowRadius: 2.22,
+        <Box className="">
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row',paddingBottom:20,marginTop: 20 }}>
+            <ScrollView
+              pagingEnabled={true}
+              contentContainerStyle={{ paddingHorizontal: 10 }}
+              horizontal={true}
+              disableScrollViewPanResponder={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <HStack space="xs" reversed={false}>
+                <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'ทั้งหมด\nView'}</Text></Box>
+                <Box className="h-10 w-20 justify-center items-center rounded" style={{ backgroundColor: "#01363E" }}><Text style={{ color: "#9FFF1A", fontSize: 12, fontFamily: "Kanit", textAlign: "center" }}>{'Rach hour'}</Text></Box>
+                <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'ท่าช้างรัชโย\nView'}</Text></Box>
+                <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'Peek a Boo\nView'}</Text></Box>
+                <Box className="h-10 w-20 justify-center items-center rounded"><Text style={{ color: "#000000", fontSize: 12, fontFamily: "KanitLight", textAlign: "center" }}>{'พราว\nView'}</Text></Box>
+              </HStack>
+            </ScrollView>
+            <View className="h-10 justify-center items-center" style={{
+              marginRight: 10,
+              shadowColor: "#000",
+              borderRadius: 10,
+              width: 70,
+              zIndex: 1,
+              shadowOffset: {
+                width: -2,
+                height: 0,
+              },
+              shadowOpacity: 0.07,
+              shadowRadius: 11.22,
 
-                elevation: 3,
-              }}>
-                <Button style={{ backgroundColor: "#fff" }}><FontAwesomeIcon icon={faPlusCircle} color={'#000'} size={16} /></Button>
-              </View>
+              elevation: 3,
+            }}>
+              <Button onPress={(e: GestureResponderEvent) => { handleGroupPress((e)) }} style={{ backgroundColor: "#fff" }}><FontAwesomeIcon icon={faCircleUser} color={'#323232'} /><Text style={{ fontFamily: 'KanitMedium' }}>237</Text></Button>
+
             </View>
-          </Box>
-
-          <Box className="flex-1 bg-black h-[100vh] bg-grey mt-2">
-            <View style={{ backgroundColor: '#f1f1f1' }}>
-              <ScrollView
-              // style={{ height: Dimensions.get('window').height - 200 }}
-              >
+          </View>
+        </Box>
+        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}> 
+            <View style={{ backgroundColor: '#fff' }}> 
                 <ResponsiveGrid
                   maxItemsPerColumn={3}
-                  data={repeatedData}
+                  data={images}
                   renderItem={renderItem}
-                  style={{ padding: 5 }}
-                />
-              </ScrollView>
-            </View>
-          </Box>
+                  style={{ padding: 0}}
+                /> 
+            </View> 
         </BottomSheetScrollView>
       </BottomSheet>
 
@@ -208,8 +202,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 0,
-    paddingVertical: 10,
+    paddingHorizontal: 0, 
     zIndex: 0,
   },
   boxContainer: {
@@ -261,3 +254,4 @@ const styles = StyleSheet.create({
     right: 20,
   }
 });
+
