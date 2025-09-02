@@ -14,8 +14,9 @@ export function ReelsScreen() {
         index?: number;
     };
 
+
     const navigation = useNavigation();
-    const listRef = useRef<FlatList>();
+    const listRef = useRef<FlatList<any>>(null);
     const { params } = useRoute<RouteProp<Record<string, ReelsScreenRouteParams>, string>>();
 
     const images = useImagesStore((state) => state.images);

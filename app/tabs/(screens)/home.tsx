@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCircleUser, faComments, faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 import { Grid, GridItem } from "@/components/ui/grid"
 import { ResponsiveGrid } from 'react-native-flexible-grid';
-import { ClusterProps, MarkerClusterer } from '@teovilla/react-native-web-maps';
+// import { ClusterProps, MarkerClusterer } from '@teovilla/react-native-web-maps';
 import { Fab, FabLabel, FabIcon } from "@/components/ui/fab"
 import { AddIcon } from "@/components/ui/icon"
 import MapView from 'react-native-maps';
@@ -18,7 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export function Home() {
   const setHeader = useTouchStore((state) => state.setHeader);
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const images = useImagesStore((state) => state.images);
   const bottomSheetRef = useRef<BottomSheet>(null);
   // callbacks
@@ -79,7 +79,15 @@ export function Home() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <View style={styles.map}>
-        {/* <MapView style={styles.map} /> */}
+        {/* <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 13.7563, // Example: Bangkok latitude
+            longitude: 100.5018, // Example: Bangkok longitude
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        /> */}
         <ScrollView
           pagingEnabled={true}
           contentContainerStyle={{ paddingHorizontal: 10, marginVertical: 10 }}
@@ -126,12 +134,12 @@ export function Home() {
           elevation: 12,
         }}
         snapPoints={snapPoints}
-        onChange={handleSheetChanges} 
+        onChange={handleSheetChanges}
         enableOverDrag={false}
-        enableDynamicSizing={true} 
+        enableDynamicSizing={true}
       >
         <Box className="">
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row',paddingBottom:20,marginTop: 20 }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingBottom: 20, marginTop: 20 }}>
             <ScrollView
               pagingEnabled={true}
               contentContainerStyle={{ paddingHorizontal: 10 }}
@@ -167,15 +175,15 @@ export function Home() {
             </View>
           </View>
         </Box>
-        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}> 
-            <View style={{ backgroundColor: '#fff' }}> 
-                <ResponsiveGrid
-                  maxItemsPerColumn={3}
-                  data={images}
-                  renderItem={renderItem}
-                  style={{ padding: 0}}
-                /> 
-            </View> 
+        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+          <View style={{ backgroundColor: '#fff' }}>
+            <ResponsiveGrid
+              maxItemsPerColumn={3}
+              data={images}
+              renderItem={renderItem}
+              style={{ padding: 0 }}
+            />
+          </View>
         </BottomSheetScrollView>
       </BottomSheet>
 
@@ -202,7 +210,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 0, 
+    paddingHorizontal: 0,
     zIndex: 0,
   },
   boxContainer: {
