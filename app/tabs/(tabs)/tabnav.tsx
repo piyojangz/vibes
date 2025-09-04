@@ -6,6 +6,8 @@ import { useTouchStore } from '../../store';
 import { Home } from '../(screens)/home'
 import { ReelsScreen } from '../(screens)/reelscreen'
 import { GroupScreen } from '../(screens)/groupscreen'
+import { CameraCaptureScreen } from '../(screens)/cameracapturescreen'
+import { PlaygroundScreen } from '../(screens)/playgroundscreen';
 
 const Stack = createStackNavigator();
 
@@ -76,6 +78,24 @@ export default function TabNav() {
             title: 'Ratch Hour',
             animationTypeForReplace: 'pop',
             animation: 'slide_from_right',
+          }}
+        />
+
+        <Stack.Screen name="CameraCaptureScreen" component={CameraCaptureScreen}
+          options={{
+            animation: 'fade_from_bottom',
+            cardStyleInterpolator: undefined,
+            animationTypeForReplace: 'pop',
+            // headerShown: false
+          }}
+        />
+
+        <Stack.Screen name="PlaygroundScreen" component={PlaygroundScreen}
+          options={{
+            animation: 'slide_from_right',
+            cardStyleInterpolator: undefined,
+            animationTypeForReplace: 'pop',
+            headerShown: false, 
           }}
         />
       </Stack.Navigator>

@@ -5,7 +5,7 @@ import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { View } from "@/components/Themed";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Image, Text } from "react-native";
-import { faUser, faCompass, faUserFriends, faHomeAlt, faUserAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faCompass, faUserFriends, faHomeAlt, faUserAlt, faUserCircle, faHome, faAlignLeft } from '@fortawesome/free-solid-svg-icons'
 
 import { useTouchStore } from '../../store';
 
@@ -71,22 +71,28 @@ export default function TabLayout() {
         }}
       /> */}
       <Tabs.Screen
-        name="tabnav"
+        name="tabhome"
         options={{
           headerShown: isShow,
           title: "",
-          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faCompass} color={color} size={24} /></View>,
+          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faHome} color={color} size={24} /></View>,
         }}
       />
 
       <Tabs.Screen
-        name="tab1"
+        name="tabnav"
         options={{
           title: "",
-          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faUserFriends} color={color} size={24} /></View>,
+          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faCompass} color={color} size={24} /></View>,
         }}
       />
-
+      <Tabs.Screen
+        name="tab2"
+        options={{
+          title: "",
+          tabBarIcon: ({ color }) => <View style={{ width: 24, height: 24, borderRadius: 12, marginTop: 10 }}><FontAwesomeIcon icon={faAlignLeft} color={color} size={24} /></View>,
+        }}
+      />
 
       <Tabs.Screen
         name="tab3"
